@@ -1,0 +1,66 @@
+{
+    "name": "paulohps/laravel-csw",
+    "description": "A Laravel package to monitor Composer dependencies for security vulnerabilities",
+    "keywords": [
+        "laravel",
+        "composer",
+        "security",
+        "audit",
+        "vulnerabilities",
+        "csw"
+    ],
+    "homepage": "https://github.com/paulohps/laravel-csw",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paulo Paetzold",
+            "email": "paetzold44@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/contracts": "^10.0||^11.0||^12.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^7.10||^8.0",
+        "orchestra/testbench": "^8.22||^9.0||^10.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelCsw\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelCsw\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage --min=100",
+        "format": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelCsw\\ComposerSecurityWatchServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
