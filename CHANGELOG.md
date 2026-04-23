@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.2] - 2026-04-23
+
+### Fixed
+
+- `SendVulnerabilityNotificationsJob` now resolves built-in channels (`log`, `slack`, `discord`, `email`, `database`) by name when no `class` key is present in the channel config entry. Previously, only entries with an explicit `class` key were dispatched, causing built-in channels to be silently skipped when the config was overridden at runtime.
+
+### Changed
+
+- CI matrix: replaced Laravel 11 with Laravel 13, added PHP 8.4 and 8.5 to the test matrix (now covers PHP 8.3–8.5 × Laravel 10, 12, 13).
+- `composer.json`: added `^13.0` to `illuminate/contracts` and `^11.0` to `orchestra/testbench` to formally declare Laravel 13 support.
+
+---
+
 ## [1.0.1] - 2024-04-23
 
 ### Fixed
