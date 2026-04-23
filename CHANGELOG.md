@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.1] - 2024-04-23
+
+### Fixed
+
+- CI matrix restricted to PHP 8.3+ to match the `^8.3` constraint declared in `composer.json`. PHP 8.2 jobs were failing on `composer update` due to the platform constraint mismatch.
+
+---
+
 ## [1.0.0] - 2024-04-23
 
 ### Added
