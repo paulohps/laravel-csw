@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.5] - 2026-04-23
+
+### Changed
+
+- Upgraded dev toolchain from Pest v3 to **Pest v4** (`pestphp/pest ^4.0`, `pest-plugin-arch ^4.0`, `pest-plugin-laravel ^4.0`).
+- Added **Laravel 13** support: `illuminate/contracts ^13.0`, `orchestra/testbench ^11.0`, CI matrix column `13.*` with testbench `11.*`. Pest v4 / `pest-plugin-laravel ^4.1` is required for Laravel 13 compatibility.
+- Removed `nunomaduro/collision ^7.10` constraint (Laravel 10 is no longer supported); constraint simplified to `^8.0`.
+
+---
+
 ## [1.0.4] - 2026-04-23
 
 ### Changed
