@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.3] - 2026-04-23
+
+### Fixed
+
+- Added three tests for `ComposerSecurityWatchServiceProviderTest` covering previously uncovered lines in `registerSchedule()`: the early-return branch when `enabled = false` (line 43) and the `callAfterResolving` callback body that reads the cron frequency and registers the command (lines 47–48). Code coverage is back to 100 %.
+
+### Changed
+
+- Dropped Laravel 10 support: removed `^10.0` from `illuminate/contracts` and `^8.22` from `orchestra/testbench` in `composer.json`.
+- CI matrix: removed Laravel 10 column (and its testbench 8 include). Matrix now covers PHP 8.3–8.5 × Laravel 12–13.
+
+---
+
 ## [1.0.2] - 2026-04-23
 
 ### Fixed
