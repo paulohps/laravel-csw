@@ -7,9 +7,9 @@
 ## Technology stack
 
 - **PHP 8.3+** — use readonly classes, named arguments, match expressions, fibers where appropriate
-- **Laravel 11/12** — use Laravel facades (Process, Http, Mail, Log, Bus) instead of low-level PHP equivalents
+- **Laravel 11/12/13** — use Laravel facades (Process, Http, Mail, Log, Bus) instead of low-level PHP equivalents
 - **Spatie Laravel Package Tools** — ServiceProvider extends `PackageServiceProvider`, configured via `configurePackage()`
-- **Pest 3** — all tests use Pest syntax with arrow functions; zero PHPUnit-style test classes
+- **Pest 4** — all tests use Pest syntax with arrow functions; zero PHPUnit-style test classes
 - **Laravel Pint (laravel preset)** — enforced by CI
 
 ## Core design principles
@@ -72,6 +72,25 @@ it('does Y when condition B', fn () => ...);
 ## Laravel scheduler registration
 
 The schedule is registered in `packageBooted()` via `callAfterResolving(Schedule::class, ...)`. This pattern is correct for Spatie packages. The command is only registered when `composer-security-watch.enabled` is `true`.
+
+## After any change — docs checklist
+
+Whenever you modify the package (new feature, config key, command flag, channel, version support), review which docs are affected and update them before considering the task done:
+
+| File | Update when… |
+|---|---|
+| `README.md` | New/removed feature, command, config key, env variable, supported PHP/Laravel version, or channel |
+| `CHANGELOG.md` | Any change — add an entry under the current version following Keep a Changelog format |
+| `CONTRIBUTING.md` | Architecture change, new step in the channel-adding workflow, or toolchain update |
+| `CLAUDE.md` (this file) | Technology stack version bump, new convention, or new architectural constraint |
+| `resources/boost/guidelines/core.blade.php` | Change to config structure, channel contract, or key architectural conventions |
+| `resources/boost/skills/csw-custom-channel/SKILL.md` | Change to `NotificationChannel` interface or channel registration flow |
+| `resources/boost/skills/csw-override-email/SKILL.md` | Change to `EmailChannel`, `VulnerabilityReport` mailable, or view publishing |
+| `resources/boost/skills/csw-override-job/SKILL.md` | Change to `SendVulnerabilityNotificationsJob` contract or dispatch mechanism |
+
+Do not leave docs as a follow-up — update them in the same pass as the code change.
+
+---
 
 ## Queue behaviour
 

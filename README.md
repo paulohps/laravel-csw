@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/paulohps/laravel-csw/actions/workflows/run-tests.yml/badge.svg)](https://github.com/paulohps/laravel-csw/actions/workflows/run-tests.yml)
 [![PHP Version](https://img.shields.io/badge/php-%5E8.3-blue)](https://www.php.net)
-[![Laravel Version](https://img.shields.io/badge/laravel-11%7C12-red)](https://laravel.com)
+[![Laravel Version](https://img.shields.io/badge/laravel-11%7C12%7C13-red)](https://laravel.com)
 [![License](https://img.shields.io/github/license/paulohps/laravel-csw)](LICENSE.md)
 
 Automate `composer audit` in your Laravel application and receive vulnerability alerts via **Log, Slack, Discord, Email, or Database** — on a schedule or on demand.
@@ -14,7 +14,7 @@ Automate `composer audit` in your Laravel application and receive vulnerability 
 | Dependency | Version |
 |---|---|
 | PHP | `^8.3` |
-| Laravel | `^11.0 \| ^12.0` |
+| Laravel | `^11.0 \| ^12.0 \| ^13.0` |
 | Composer | `^2.4` (for `audit` command support) |
 
 ---
