@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.4] - 2026-04-23
+
+### Changed
+
+- Reverted Laravel 13 from the CI matrix and `composer.json`: `pestphp/pest-plugin-laravel ^3.x` does not yet support Laravel 13, making the matrix job fail at dependency resolution. Laravel 13 will be re-added once a compatible version of the Pest Laravel plugin is released.
+- CI matrix now covers **PHP 8.3 / 8.4 / 8.5 × Laravel 11 / 12** (Laravel 11 restored, Laravel 13 removed).
+- `illuminate/contracts` reverted to `^11.0||^12.0`; `orchestra/testbench` reverted to `^9.0||^10.0`.
+
+---
+
 ## [1.0.3] - 2026-04-23
 
 ### Fixed
