@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.7] - 2026-04-23
+
+### Changed
+
+- Updated `actions/checkout` from `v4` to `v5` in the CI workflow to resolve the Node.js 20 deprecation warning on GitHub Actions runners.
+
+---
+
 ## [1.0.6] - 2026-04-23
 
 ### Changed
