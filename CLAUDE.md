@@ -6,8 +6,8 @@
 
 ## Technology stack
 
-- **PHP 8.2+** — use readonly classes, named arguments, match expressions, fibers where appropriate
-- **Laravel 10/11/12** — use Laravel facades (Process, Http, Mail, Log, Bus) instead of low-level PHP equivalents
+- **PHP 8.3+** — use readonly classes, named arguments, match expressions, fibers where appropriate
+- **Laravel 11/12** — use Laravel facades (Process, Http, Mail, Log, Bus) instead of low-level PHP equivalents
 - **Spatie Laravel Package Tools** — ServiceProvider extends `PackageServiceProvider`, configured via `configurePackage()`
 - **Pest 3** — all tests use Pest syntax with arrow functions; zero PHPUnit-style test classes
 - **Laravel Pint (laravel preset)** — enforced by CI
@@ -41,8 +41,9 @@
 
 1. Create `src/Channels/XChannel.php` implementing `NotificationChannel`.
 2. Add a config entry in `config/composer-security-watch.php` under `notify.channels` with a `class` key pointing to the new channel.
-3. Write tests in `tests/Unit/Channels/XChannelTest.php` covering all branches.
-4. Update `README.md`.
+3. Add the channel to `SendVulnerabilityNotificationsJob::BUILT_IN_CHANNELS` as a fallback for configs that omit the `class` key.
+4. Write tests in `tests/Unit/Channels/XChannelTest.php` covering all branches.
+5. Update `README.md`.
 
 ## Testing conventions
 

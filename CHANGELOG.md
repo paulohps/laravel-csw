@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.6] - 2026-04-23
+
+### Changed
+
+- Updated `README.md` to reflect the correct PHP (`^8.3`) and Laravel (`^11.0|^12.0`) requirements; config example now shows the full structure including `notify.job`, `class` keys per channel, and the `mailable` key for the email channel; added `CSW_JOB_QUEUE` to the environment variable reference; documented the `mailable` override for the email channel; clarified that the `class` key in config is the resolution mechanism for custom channels.
+- Updated `CONTRIBUTING.md`: corrected PHP requirement to 8.3+; fixed constant name `BUILTIN_CHANNELS` → `BUILT_IN_CHANNELS`; clarified that the config entry must include a `class` key when adding a new built-in channel.
+- Updated `CLAUDE.md`: corrected PHP and Laravel version references in the technology stack; added step for `BUILT_IN_CHANNELS` in the "Adding a new built-in channel" guide.
+
+---
+
 ## [1.0.5] - 2026-04-23
 
 ### Changed

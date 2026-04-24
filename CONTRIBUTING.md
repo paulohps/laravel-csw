@@ -62,7 +62,7 @@ docker compose run --rm app vendor/bin/pint
 
 ### Option B — Local PHP
 
-Requirements: PHP 8.2+, Composer 2.x.
+Requirements: PHP 8.3+, Composer 2.x.
 
 ```bash
 git clone https://github.com/your-vendor/laravel-csw.git
@@ -140,8 +140,8 @@ src/
 ### Adding a new built-in notification channel
 
 1. Create `src/Channels/MyChannel.php` implementing `NotificationChannel`.
-2. Add a config entry in `config/composer-security-watch.php`.
-3. Register the class name in `SendVulnerabilityNotificationsJob::BUILTIN_CHANNELS`.
+2. Add a config entry under `notify.channels` in `config/composer-security-watch.php` with a `class` key pointing to the new channel.
+3. Add the channel to `SendVulnerabilityNotificationsJob::BUILT_IN_CHANNELS` as a fallback for configs that omit the `class` key.
 4. Write tests in `tests/Unit/Channels/MyChannelTest.php`.
 5. Document in `README.md`.
 

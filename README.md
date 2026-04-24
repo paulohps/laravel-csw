@@ -1,8 +1,8 @@
 # Laravel Composer Security Watch (CSW)
 
 [![Tests](https://github.com/paulohps/laravel-csw/actions/workflows/run-tests.yml/badge.svg)](https://github.com/paulohps/laravel-csw/actions/workflows/run-tests.yml)
-[![PHP Version](https://img.shields.io/badge/php-%5E8.2-blue)](https://www.php.net)
-[![Laravel Version](https://img.shields.io/badge/laravel-10%7C11%7C12-red)](https://laravel.com)
+[![PHP Version](https://img.shields.io/badge/php-%5E8.3-blue)](https://www.php.net)
+[![Laravel Version](https://img.shields.io/badge/laravel-11%7C12-red)](https://laravel.com)
 [![License](https://img.shields.io/github/license/paulohps/laravel-csw)](LICENSE.md)
 
 Automate `composer audit` in your Laravel application and receive vulnerability alerts via **Log, Slack, Discord, Email, or Database** — on a schedule or on demand.
@@ -13,8 +13,8 @@ Automate `composer audit` in your Laravel application and receive vulnerability 
 
 | Dependency | Version |
 |---|---|
-| PHP | `^8.2` |
-| Laravel | `^10.0 \| ^11.0 \| ^12.0` |
+| PHP | `^8.3` |
+| Laravel | `^11.0 \| ^12.0` |
 | Composer | `^2.4` (for `audit` command support) |
 
 ---
@@ -41,25 +41,46 @@ The published config file is located at `config/composer-security-watch.php`.
 
 ```php
 return [
-    // Enable or disable the scheduled audit entirely
     'enabled' => env('CSW_ENABLED', true),
 
     'schedule' => [
-        // Standard cron syntax. Defaults to every day at 9 AM.
-        // Examples:
-        //   '0 9 * * *'     — every day at 9:00 AM
-        //   '0 9 * * 1'     — every Monday at 9:00 AM
-        //   '0 */6 * * *'   — every 6 hours
         'frequency' => env('CSW_SCHEDULE_FREQUENCY', '0 9 * * *'),
     ],
 
     'notify' => [
+
+        // Job responsible for dispatching notifications.
+        // Override 'class' for custom dispatch logic; set 'queue' to target a specific queue.
+        'job' => [
+            'class' => \LaravelCsw\Jobs\SendVulnerabilityNotificationsJob::class,
+            'queue' => env('CSW_JOB_QUEUE', 'default'),
+        ],
+
         'channels' => [
-            'log'      => ['enabled' => true],
-            'slack'    => ['enabled' => false, 'webhook_url' => env('CSW_SLACK_WEBHOOK_URL')],
-            'discord'  => ['enabled' => false, 'webhook_url' => env('CSW_DISCORD_WEBHOOK_URL')],
-            'email'    => ['enabled' => false, 'to' => env('CSW_EMAIL_TO')],
-            'database' => ['enabled' => false],  // requires migration — see below
+            'log' => [
+                'enabled' => env('CSW_NOTIFY_LOG', true),
+                'class'   => \LaravelCsw\Channels\LogChannel::class,
+            ],
+            'slack' => [
+                'enabled'     => env('CSW_NOTIFY_SLACK', false),
+                'class'       => \LaravelCsw\Channels\SlackChannel::class,
+                'webhook_url' => env('CSW_SLACK_WEBHOOK_URL'),
+            ],
+            'discord' => [
+                'enabled'     => env('CSW_NOTIFY_DISCORD', false),
+                'class'       => \LaravelCsw\Channels\DiscordChannel::class,
+                'webhook_url' => env('CSW_DISCORD_WEBHOOK_URL'),
+            ],
+            'email' => [
+                'enabled'  => env('CSW_NOTIFY_EMAIL', false),
+                'class'    => \LaravelCsw\Channels\EmailChannel::class,
+                'to'       => env('CSW_EMAIL_TO'),
+                'mailable' => \LaravelCsw\Mail\VulnerabilityReport::class,
+            ],
+            'database' => [
+                'enabled' => env('CSW_NOTIFY_DATABASE', false),
+                'class'   => \LaravelCsw\Channels\DatabaseChannel::class,
+            ],
         ],
     ],
 ];
@@ -79,6 +100,7 @@ return [
 | `CSW_NOTIFY_EMAIL` | Enable email channel (`false`) |
 | `CSW_EMAIL_TO` | Recipient email address(es) |
 | `CSW_NOTIFY_DATABASE` | Enable database channel (`false`) |
+| `CSW_JOB_QUEUE` | Queue name for the notification job (`default`) |
 
 ---
 
@@ -169,7 +191,17 @@ For multiple recipients, set in `config/composer-security-watch.php`:
 ```php
 'email' => [
     'enabled' => true,
-    'to' => ['admin@example.com', 'security@example.com'],
+    'to'      => ['admin@example.com', 'security@example.com'],
+],
+```
+
+To customise the email subject, headers, or template, override the `mailable` key with your own `Mailable` class. Its constructor must accept `array $vulnerabilities` as the first argument:
+
+```php
+'email' => [
+    'enabled'  => true,
+    'to'       => env('CSW_EMAIL_TO'),
+    'mailable' => \App\Mail\MyVulnerabilityReport::class,
 ],
 ```
 
@@ -217,7 +249,7 @@ class PagerDutyChannel implements NotificationChannel
 }
 ```
 
-Register it in your config:
+Register it in the `notify.channels` config array — the `class` key is what the notification job uses to resolve the channel:
 
 ```php
 'notify' => [
